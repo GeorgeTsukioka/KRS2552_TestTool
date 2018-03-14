@@ -5,21 +5,25 @@
 #include <boost/thread.hpp>
 #include "Servo.h"
 
+#ifndef _SERIAL_PORT_H_
+#define _SERIAL_PORT_H_
+
 class SerialPort
 {
-public:
-	boost::asio::io_service io;
-	const char *PORT;
-	int baud_rate;
-	boost::asio::serial_port port;
+private:
+	boost::asio::io_service mIO;
+	std::string mPortID;
+	int mBaudRate;
+	boost::asio::serial_port* mPort;
 
 public:
-	SerialPort(const char* cPort, int cbaud_rate) : PORT(cPort), port(io, PORT), baud_rate(cbaud_rate) {
-		setPort();
+	SerialPort(std::string cPort, int cBaudRate) : mPortID(cPort), mBaudRate(cBaudRate) {
 	};
 	~SerialPort(){};
 
-	void setPort();
+	bool setPort();
 	bool setAngle(Servo aServo);
 };
 
+#endif
+/*_SERIAL_PORT_H_*/
